@@ -3,6 +3,7 @@ import Nat "mo:base/Nat";
 import Result "mo:base/Result";
 import Text "mo:base/Text";
 
+import Battery "battery";
 import Http "http";
 import Time "time";
 shared ({ caller = superuser }) actor class PC() = this {
@@ -11,6 +12,7 @@ shared ({ caller = superuser }) actor class PC() = this {
     public type Time = Time.Time;
     public type BOOT = Nat; // Total supply of $BOOT is limited to 21 Million
     public type SEB = Nat; // 1 BOOT = 10^8 SEB
+    public type Name = Text;
     public type R3 = Nat;
 
     public type Action = {
@@ -58,6 +60,14 @@ shared ({ caller = superuser }) actor class PC() = this {
             status_code = 200;
             streaming_strategy = null;
         });
+    };
+
+    public query func indicator() : async Text {
+        return Battery.indicator();
+    };
+
+    public query func balance() : async Nat {
+        return Battery.balance();
     };
 
 };
